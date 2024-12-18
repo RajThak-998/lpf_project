@@ -37,7 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
+
+EXTERNAL_APPS = [
+    'participants',
+]
+
+INSTALLED_APPS += EXTERNAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,6 +55,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  # display 10 items per page
+}
 
 ROOT_URLCONF = 'lpf_project.urls'
 
@@ -75,8 +87,12 @@ WSGI_APPLICATION = 'lpf_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lpf_db',          # The name of your PostgreSQL database
+        'USER': 'lpf_user',        # The PostgreSQL user you created
+        'PASSWORD': 'Raj@2004',  # The password for the PostgreSQL user
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
