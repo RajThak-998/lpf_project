@@ -41,7 +41,11 @@ INSTALLED_APPS = [
 ]
 
 EXTERNAL_APPS = [
+    # apps
     'participants',
+    'assignments',
+
+    #third party apps
     'rest_framework',
     'rest_framework.authtoken', 
     'django_filters',

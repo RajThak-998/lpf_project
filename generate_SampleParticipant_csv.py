@@ -2,7 +2,7 @@ import csv
 from faker import Faker
 
 # generates the fake csv data (size = 800)
-# to generate use python generate_sample_csv.py
+# to generate use python filename.py
 
 def generate_csv(filename, num_users):
     fake = Faker()
