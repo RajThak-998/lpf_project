@@ -16,5 +16,5 @@ def generate_assignments_csv(filename, num_entries):
             writer.writerow([participant_uid, title, content])
 
 if __name__ == "__main__":
-    generate_assignments_csv('assignments_sample.csv', 800)
-    print("assignments.csv has been generated with 800 entries.")
+    generate_assignments_csv('assignments_sample.csv', 100)
+    print("assignments.csv has been generated with 100 entries.")

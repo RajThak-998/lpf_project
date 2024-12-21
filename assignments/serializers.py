@@ -2,8 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from .models import Assignment, Review
 from participants.models import Participant
-
-# assigning serializer for  Assignmnet model
+from django.utils import timezone
 
 class AssignmentSerializer(serializers.ModelSerializer):
     participant = serializers.SlugRelatedField(
@@ -16,9 +15,6 @@ class AssignmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('submitted_at',)
 
-
-# assigning serializer for Review model
-
 class ReviewSerializer(serializers.ModelSerializer):
     assignment = serializers.PrimaryKeyRelatedField(queryset=Assignment.objects.all())
     reviewer = serializers.SlugRelatedField(
@@ -26,12 +22,11 @@ class ReviewSerializer(serializers.ModelSerializer):
         queryset=Participant.objects.all()
     )
 
-
     class Meta:
         model = Review
         fields = '__all__'
-        read_only_fields = ('reviewed_at',)
-        validators = [                          # prevent duplicate-review
+        read_only_fields = ('assigned_at', 'reviewed_at')
+        validators = [
             UniqueTogetherValidator(
                 queryset=Review.objects.all(),
                 fields=['assignment', 'reviewer'],
@@ -39,16 +34,18 @@ class ReviewSerializer(serializers.ModelSerializer):
             )
         ]
 
-    def validate(self,data):
+    def validate(self, data):
         assignment = data.get('assignment')
         reviewer = data.get('reviewer')
 
         # Prevent self-review
-        if assignment.participant == reviewer :
-            raise serializers.ValidationError("Participant cannot review their own assignment")
-        
+        if assignment.participant == reviewer:
+            raise serializers.ValidationError("Participants cannot review their own assignments.")
+
         return data
 
-
-
-
+    def update(self, instance, validated_data):
+        # Set the reviewed_at field when feedback is provided
+        if 'feedback' in validated_data and validated_data['feedback']:
+            instance.reviewed_at = timezone.now()
+        return super().update(instance, validated_data)
