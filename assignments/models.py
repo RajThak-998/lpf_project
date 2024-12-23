@@ -16,8 +16,8 @@ class Assignment(models.Model):
 class Review(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='reviews')
     reviewer = models.ForeignKey(Participant, on_delete=models.CASCADE, related_name='reviews_given')
-    feedback = models.TextField()
-    reviewed_at = models.DateTimeField(auto_now_add=True)
+    feedback = models.TextField(blank=True)
+    reviewed_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         unique_together = ('assignment', 'reviewer')

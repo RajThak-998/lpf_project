@@ -18,3 +18,4 @@ local_settings.py
 
 # Others
 *.sqlite3
+compare.py

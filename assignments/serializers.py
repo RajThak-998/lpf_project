@@ -26,12 +26,11 @@ class ReviewSerializer(serializers.ModelSerializer):
         queryset=Participant.objects.all()
     )
 
-
     class Meta:
         model = Review
         fields = '__all__'
         read_only_fields = ('reviewed_at',)
-        validators = [                          # prevent duplicate-review
+        validators = [
             UniqueTogetherValidator(
                 queryset=Review.objects.all(),
                 fields=['assignment', 'reviewer'],
@@ -39,15 +38,24 @@ class ReviewSerializer(serializers.ModelSerializer):
             )
         ]
 
-    def validate(self,data):
+    def validate(self, data):
         assignment = data.get('assignment')
         reviewer = data.get('reviewer')
 
         # Prevent self-review
-        if assignment.participant == reviewer :
+        if assignment.participant == reviewer:
             raise serializers.ValidationError("Participant cannot review their own assignment")
-        
+
         return data
+
+    def update(self, instance, validated_data):
+        feedback = validated_data.get('feedback', instance.feedback)
+        instance.feedback = feedback
+        if feedback and not instance.reviewed_at:
+            from django.utils import timezone
+            instance.reviewed_at = timezone.now()
+        instance.save()
+        return instance
 
 
 

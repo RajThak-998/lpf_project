@@ -19,5 +19,5 @@ def generate_csv(filename, num_users):
             writer.writerow([uid, name, email])
 
 if __name__ == "__main__":
-    generate_csv('participants_sample.csv', 800)
-    print("sample.csv has been generated with 800 users.")
+    generate_csv('participants_sample.csv', 100)
+    print("sample.csv has been generated with 100 users.")
