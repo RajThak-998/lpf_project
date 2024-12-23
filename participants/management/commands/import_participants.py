@@ -14,15 +14,15 @@ from django.core.management.base import BaseCommand
 from participants.models import Participant
 from django.db import transaction
 from django.db import connections
-import os
-import sys
-import re
-
-import logging
+import os, sys, re, logging
 
 # Configure logging at the start of the file
+LOG_FOLDER = "additional_functionalities"
+os.makedirs(LOG_FOLDER, exist_ok=True)
+
 logger = logging.getLogger(__name__)
-handler = logging.FileHandler('import_participants_errors.log')
+log_file_path = os.path.join(LOG_FOLDER, 'import_participants_errors.log')
+handler = logging.FileHandler(log_file_path)
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)

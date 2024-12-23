@@ -44,6 +44,7 @@ EXTERNAL_APPS = [
     # apps
     'participants',
     'assignments',
+    'analytics',
 
     #third party apps
     'rest_framework',
