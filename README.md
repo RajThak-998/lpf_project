@@ -44,6 +44,7 @@ An online platform to manage participants, handle assignment submissions, facili
 
 ***
 
+
 ## API Endpoints
    
 ### Participants
@@ -116,46 +117,54 @@ An online platform to manage participants, handle assignment submissions, facili
    ```
 
 ### Analytics
-
+   * Participant Progress
+   ```http
+   GET /api/analytics/participant-progress/
+   ```
+   * Assignment Status
+   ```http
+   GET /api/analytics/assignment-status/
+   ```
+   * Assignment Submission Status
+   ```http
+   GET /api/analytics/assignment-submission-status/
+   ```
 
 ### Management commands 
-Import Participant python manage.py import_participants --file=path/to/file.csv
-   Options:
-      --dry-run: Run the import without making any changes to the database.
-      --batch-size: Number of records to process in each batch (default: 200).
 
-Import Assignments python manage.py import_assignments --file=path/to/file.csv
-   Options:
-      --dry-run: Run the import without making any changes to the database.
-      --batch-size: Number of records to process in each batch (default: 200).
+#### Import participants
+```bash
+python manage.py import_participants --file=path/to/file.csv
+```
+##### Options
+   * ```--dry-run```: Run the import without making any changes to the database.
+   * ```--batch-size```: Number of records to process in each batch (default: 200).
 
-Assign Reviews python manage.py assign_reviews --reviews_per_participant=3 --reviews_per_assignment=2
-   Options:
-      --reviews_per_participant: Number of reviews each participant should perform (default: 3).
-      --reviews_per_assignment: Minimum number of reviews each assignment should receive (default: 2).
+#### Import Assignments
+```bash
+python manage.py import_assignments --file=path/to/file.csv
+```
+##### Options
+   * ```--dry-run```: Run the import without making any changes to the database.
+   * ```--batch-size```: Number of records to process in each batch (default: 200).
 
-### Models
+#### Assign Reviews
+```bash
+python manage.py assign_reviews --reviews_per_participant=3 --reviews_per_assignment=2
+```
+##### Options
+   * ```--reviews_per_participant```: Number of reviews each participant should perform (default: 3).
+   * ```---reviews_per_assignment```: Minimum number of reviews each assignment should receive (default: 2).
 
-Participant
-uid: Unique identifier for the participant.
-name: Name of the participant.
-email: Email of the participant.
 
-Assignment
-participant: Foreign key to the participant who submitted the assignment.
-title: Title of the assignment.
-content: Content of the assignment.
-submitted_at: Timestamp when the assignment was submitted.
 
-Review
-assignment: Foreign key to the assignment being reviewed.
-reviewer: Foreign key to the participant who is reviewing the assignment.
-feedback: Feedback provided by the reviewer.
-reviewed_at: Timestamp when the review was submitted.
+### Additional Information
 
-Additional Information
-The project uses Django REST Framework for building the APIs.
-The project uses PostgreSQL as the database.
-The project includes management commands for importing participants and assignments from CSV files and assigning peer reviews.
-For more details, refer to the source code and the comments within the code.
+* The project uses Django REST Framework for building the APIs.
+* The project uses PostgreSQL as the database.
+* The project includes management commands for importing participants and assignments from CSV files and assigning peer reviews.
+
+
+*For more details, refer to the source code and the comments within the code.*
+
 
